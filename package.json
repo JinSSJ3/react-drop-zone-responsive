@@ -1,6 +1,6 @@
 {
   "name": "react-drop-zone-responsive",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Amazing react drop zone for loading files. Also basic input throw button is available.",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
