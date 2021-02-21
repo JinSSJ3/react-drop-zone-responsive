@@ -242,7 +242,7 @@ var DropZone = function (props) {
                 return "" + listExt[0];
             default: {
                 var listExtensions = " ." + listExt[0];
-                for (var i = 1; i < listExtensions.length; i++) {
+                for (var i = 1; i < listExt.length; i++) {
                     listExtensions += ", ." + listExt[i];
                 }
                 return listExtensions;
