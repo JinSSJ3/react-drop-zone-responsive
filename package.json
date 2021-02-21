@@ -1,39 +1,76 @@
 {
   "name": "react-drop-zone-responsive",
-  "version": "1.2.0",
+  "version": "2.7.0",
   "description": "Amazing react drop zone for loading files. Also basic input throw button is available.",
   "main": "./build/index.js",
-  "types": "./build/index.d.ts",
-  "scripts": {
-    "build": "webpack",
-    "postinstall": "node postinstallSSJ.js"
-  },
+  "module": "./build/index.es.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JinSSJ3/react-drop-zone.git"
   },
   "keywords": [
-    "DropZone",
-    "react"
+    "drop zone",
+    "file",
+    "typescript",
+    "drag",
+    "drop",
+    "drag-and-drop",
+    "react",
+    "input file",
+    "input",
+    "customizable",
+    "responsive"
   ],
   "author": "JinSSJ3",
   "license": "MIT",
-  "devDependencies": {
-    "@babel/core": "^7.7.5",
-    "@babel/preset-env": "^7.7.6",
-    "@babel/preset-react": "^7.7.4",
-    "babel-loader": "^8.0.6",
-    "css-loader": "^3.3.0",
-    "sass": "^1.32.7",
-    "sass-loader": "^11.0.1",
-    "style-loader": "^1.0.1",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.10",
-    "react": "^16.13.1"
-  },
-  "dependencies": {},
   "bugs": {
     "url": "https://github.com/JinSSJ3/react-drop-zone/issues"
   },
-  "homepage": "https://github.com/JinSSJ3/react-drop-zone#readme"
+  "homepage": "https://github.com/JinSSJ3/react-drop-zone#readme",
+  "dependencies": {
+    "rollup-plugin-sass": "^1.2.2"
+  },
+  "peerDependencies": {
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@rollup/plugin-commonjs": "^15.1.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "@storybook/addon-actions": "^6.0.22",
+    "@storybook/addon-links": "^6.0.22",
+    "@storybook/addons": "^6.0.22",
+    "@storybook/react": "^6.0.22",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.0.4",
+    "@types/jest": "^26.0.14",
+    "@types/node": "^14.11.2",
+    "@types/testing-library__jest-dom": "^5.9.3",
+    "@types/testing-library__react": "^10.2.0",
+    "@typescript-eslint/eslint-plugin": "^4.3.0",
+    "@typescript-eslint/parser": "^4.3.0",
+    "babel-loader": "^8.1.0",
+    "eslint": "^7.10.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-plugin-jest": "^24.0.2",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.21.2",
+    "fork-ts-checker-webpack-plugin": "^5.2.0",
+    "jest": "^26.4.2",
+    "prettier": "^2.1.2",
+    "rollup": "^2.28.2",
+    "rollup-plugin-peer-deps-external": "^2.2.3",
+    "rollup-plugin-typescript2": "^0.27.3",
+    "ts-jest": "^26.4.0",
+    "ts-loader": "^8.0.4",
+    "typescript": "^4.0.3"
+  },
+  "scripts": {
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "build": "rollup -c",
+    "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
+    "test": "jest"
+  }
 }
