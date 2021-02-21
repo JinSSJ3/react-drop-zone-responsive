@@ -9,7 +9,6 @@ export interface Limits {
     maxSize?: number;
 }
 export interface DropZoneProps {
-    extensions?: Array<string>;
     style?: Styles;
     limits?: Limits;
     amountOfFiles?: number;

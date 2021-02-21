@@ -229,27 +229,27 @@ var DropZone = function (props) {
             return [2 /*return*/];
         });
     }); };
-    var renderListOfExtensions = function () {
-        var listExt = limits.extensions;
+    var renderListOfExtensions = function (listExt) {
+        //onst listExt: Array<string> | undefined=limits.extensions;
+        if (!listExt) {
+            return "";
+        }
         var size = listExt.length;
         switch (size) {
             case 0:
-                return React__default['default'].createElement(React__default['default'].Fragment, null);
+                return "";
             case 1:
-                return (React__default['default'].createElement("h2", null,
-                    "Extensions allowed: ",
-                    React__default['default'].createElement("strong", null, " ." + listExt[0])));
+                return "" + listExt[0];
             default: {
                 var listExtensions = " ." + listExt[0];
                 for (var i = 1; i < listExtensions.length; i++) {
                     listExtensions += ", ." + listExt[i];
                 }
-                return (React__default['default'].createElement("h2", null,
-                    "Extensions allowed:",
-                    React__default['default'].createElement("strong", null, listExtensions)));
+                return listExtensions;
             }
         }
     };
+    var listOfExtensionsShow = renderListOfExtensions(limits.extensions);
     React.useEffect(function () {
         init();
     });
@@ -260,7 +260,9 @@ var DropZone = function (props) {
                     React__default['default'].createElement("h1", null, " Drop your file here"),
                     React__default['default'].createElement("h1", null, " or"),
                     React__default['default'].createElement(JButton, { style: style || undefined, onClick: dz_handleClick }, "Select your file..."),
-                    renderListOfExtensions))),
+                    listOfExtensionsShow && listOfExtensionsShow.length > 0 ? (React__default['default'].createElement("h2", null,
+                        "Extensions allowed: ",
+                        React__default['default'].createElement("strong", null, " " + listOfExtensionsShow))) : (React__default['default'].createElement(React__default['default'].Fragment, null))))),
         React__default['default'].createElement("input", { ref: input_ref, type: "file", id: "inputSSJ", style: { display: "none" }, onChange: handleFileSelect, multiple: true })));
 };
 

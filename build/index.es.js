@@ -221,27 +221,27 @@ var DropZone = function (props) {
             return [2 /*return*/];
         });
     }); };
-    var renderListOfExtensions = function () {
-        var listExt = limits.extensions;
+    var renderListOfExtensions = function (listExt) {
+        //onst listExt: Array<string> | undefined=limits.extensions;
+        if (!listExt) {
+            return "";
+        }
         var size = listExt.length;
         switch (size) {
             case 0:
-                return React.createElement(React.Fragment, null);
+                return "";
             case 1:
-                return (React.createElement("h2", null,
-                    "Extensions allowed: ",
-                    React.createElement("strong", null, " ." + listExt[0])));
+                return "" + listExt[0];
             default: {
                 var listExtensions = " ." + listExt[0];
                 for (var i = 1; i < listExtensions.length; i++) {
                     listExtensions += ", ." + listExt[i];
                 }
-                return (React.createElement("h2", null,
-                    "Extensions allowed:",
-                    React.createElement("strong", null, listExtensions)));
+                return listExtensions;
             }
         }
     };
+    var listOfExtensionsShow = renderListOfExtensions(limits.extensions);
     useEffect(function () {
         init();
     });
@@ -252,7 +252,9 @@ var DropZone = function (props) {
                     React.createElement("h1", null, " Drop your file here"),
                     React.createElement("h1", null, " or"),
                     React.createElement(JButton, { style: style || undefined, onClick: dz_handleClick }, "Select your file..."),
-                    renderListOfExtensions))),
+                    listOfExtensionsShow && listOfExtensionsShow.length > 0 ? (React.createElement("h2", null,
+                        "Extensions allowed: ",
+                        React.createElement("strong", null, " " + listOfExtensionsShow))) : (React.createElement(React.Fragment, null))))),
         React.createElement("input", { ref: input_ref, type: "file", id: "inputSSJ", style: { display: "none" }, onChange: handleFileSelect, multiple: true })));
 };
 
