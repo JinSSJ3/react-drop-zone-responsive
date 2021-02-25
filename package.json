@@ -1,6 +1,6 @@
 {
   "name": "react-drop-zone-responsive",
-  "version": "2.7.9",
+  "version": "2.8.7",
   "description": "Amazing react drop zone for loading files. Also basic input throw button is available.",
   "main": "./build/index.js",
   "module": "./build/index.es.js",
@@ -20,7 +20,9 @@
     "input file",
     "input",
     "customizable",
-    "responsive"
+    "responsive",
+    "spanish",
+    "upload"
   ],
   "author": "JinSSJ3",
   "license": "MIT",

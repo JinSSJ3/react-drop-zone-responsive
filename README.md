@@ -2,23 +2,31 @@
  <img width="150" src="https://pbs.twimg.com/media/EVf6Z8rWoAQdMvG.jpg" alt="JinSS3 logo"></a></p>
 </p>
 
-<h1 align="center">React Drop Zone Responsive (beta version)</h1>
+<h1 align="center">React Drop Zone Responsive</h1>
 
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mui-org/material-ui/blob/master/LICENSE)[![npm latest package](https://img.shields.io/badge/npm%40latest-2.7.x-orange)](https://www.npmjs.com/package/react-drop-zone-responsive)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mui-org/material-ui/blob/master/LICENSE)[![npm latest package](https://img.shields.io/badge/npm%40latest-2.8.x-orange)](https://www.npmjs.com/package/react-drop-zone-responsive)
 
-This is my very first npm package, so if you have any issue or suggestion let me know on the github section "[issues](https://github.com/JinSSJ3/react-drop-zone-responsive/issues)".
+This is my very first npm package, so if you have any issue or suggestion let me know it on the github section: "[issues](https://github.com/JinSSJ3/react-drop-zone-responsive/issues)".
 
 ## Description
 
-Amazing [React](https://reactjs.org/) drop zone component for loading files.
+Amazing [React](https://reactjs.org/) drop zone component for loading and validating input files.
 
-#### Features:
+<p align="center">
+ <img width="100%" src="https://user-images.githubusercontent.com/43678736/109107931-9812b400-7700-11eb-802d-e3f23b5bfc38.png" alt="demo-drop-zone"></a></p>
+</p>
+<p align="center">
+ <img width="100%" src="https://user-images.githubusercontent.com/43678736/109116010-de224480-770d-11eb-9bb6-52f78bd7c0bf.png" alt="demo-drop-zone"></a></p>
+</p>
+
+## Main Features:
 
 - Basic input button is included.
 - Free handling: You are free to handle the loaded files because this component returns an array of files each of them has 2 properties (the own file and an array of errors according to the limits you set).
-- Usable: It will fit the parent container.
-- Customizable: you can change the color to fit with your theme.
-- *File reading `(csv, txt, json, xlsx)`: soon in future releases*
+- Usable: It will fit the parent container. So make sure you git it an appropiate container.
+- Customizable: you can change the theme color to combine correctly with the rest of the page.
+- Localization: English and Spanish versions.
+- ***File reading**: `(csv, txt, json, xlsx)`: *soon**in future releases*
 
 ## Installation
 
@@ -31,7 +39,7 @@ npm i react-drop-zone-responsive
 
 ## Usage (example)
 
-Here is a quick example to get you started, **it's all you need**:
+Here is an example to get you started, **it's all you need**:
 
 In this exaple we are telling the drop zone:
 
@@ -40,12 +48,40 @@ In this exaple we are telling the drop zone:
 - to admit fies with extensions `"json", "exe", "pdf", "png"`
 - to admit files wich mimetype is included in the list: `"application/json", "image/png"`
 
-Styling: You can style the component giving the color theme and a nice background image from internet.
+**Styling**:
 
-- color: `#ff5733`
+You can style the component giving the color theme and a nice background image got from internet.
+
+- themeColor: `#ff5733`
 - backgroundImage: `"https://miro.medium.com/max/670/1*wPqqYFfNreXF4INrNhYkeQ.jpeg"`
 
+You can also style the text ( in this example I am using fonts from [Google fonts](https://fonts.google.com/)). It is necessary to add the corresponding link tag on the `index.html` file.
+
+````html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+   ...
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Long+Cang&display=swap"
+      rel="stylesheet"
+    />
+    ...
+</head>
+
+  <body>
+      ...
+  </body>
+</html>
+````
+
 ````jsx
+// App.jsx
 import "./styles.css";
 import DropZone from "react-drop-zone-responsive";
 import { useState } from "react";
@@ -54,16 +90,31 @@ const useLimits = {
   mimeType: ["application/json", "application/pdf", "image/png"], //admited mymetypes
   maxSize: 50 // MB
 };
+//font family got from google fonts:
+//https://fonts.google.com/specimen/Indie+Flower?preview.text_type=custom&sidebar.open=true&selection.family=Indie+Flower
 const useDropZoneStyles = {
-  color: "teal", 
+  themeColor: "teal",
+  mainTextStyle: {
+    fontFamily: "Indie Flower, cursive",
+    color: "",
+    fontSize: 16
+  },
+  bottonTextStyle: {
+    fontFamily: "Long Cang, cursive",
+    color: "",
+    fontSize: 4
+  },
+
   //theme color: could also be "rgb: rgb(255,254,45)", "hex: #0000ff"
+  // color: "#0000ff",
+  // color: "rgb(255,254,45)",
   backgroundImage:
     "https://miro.medium.com/max/670/1*wPqqYFfNreXF4INrNhYkeQ.jpeg"
 };
 
 const numberOfFiles = 4;
 
-const App= (props) => {
+const App = (props) => {
   const [fileListCheck, setFileListCheck] = useState([]);
   const [fileListError, setFileListError] = useState([]);
   const handleFileSelect = (files) => {
@@ -84,7 +135,9 @@ const App= (props) => {
   };
   return (
     <div className="App">
-      <h1>Wellcome to React Drop Zone Responsive on CodeSandbox</h1>
+      <h1 style={useDropZoneStyles.mainTextStyle}>
+        Wellcome to React Drop Zone Responsive on CodeSandbox
+      </h1>
       <h2>Start editing to see some magic happen!</h2>
       <p>Component in construction BTW</p>
       <DropZone
@@ -110,14 +163,37 @@ const App= (props) => {
   );
 };
 export default App;
-
-
 ````
-
 
 Yes, it's really all you need to get started as you can see in this live and interactive demo:
 
 [![Edit Button](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/dropzone-test-wztkb?file=/src/App.js)
+
+## Props (all are optional)
+
+
+| Name | Description | Default |
+| - | - | - |
+| `style` | Object that contains the main styles for the component. | {`themeColor:#ff6c37`,`backgroundImage:"https://www.postman.com/assets/use-cases-by-role.svg"`} |
+| `limits` | Object that contains the criteria to validate files that we want to load and files we don't. | `undefined`: allows any kind of file |
+| `amountOfFiles` | The number of files to consider. | 10 |
+| `handleFileSelect` | The handler function when files are droped or selected. This function receives the list of files after validation. | `undefined` |
+| `localization` | The corresponding translation for languages.<br />Supporting now English `en-EN` and Spanish `es-ES`. | `en-EN`: by default |
+
+### Props.style
+
+- **themeColor**?: Main color for borders and button theme color.
+- **mainTextStyle**? and **bottonTextStyle**?: Styles for labels on the top and botton.
+  - fontFamily?: string;
+  - color?: string;
+  - fontSize?: string | number;
+- **backgroundImage**?: An url to an image on internet to fit the background of the drop zone.
+
+### Props.limits
+
+* **extensions**?: a string array of extensions
+* **mimeType**?: a string array of mimetypes
+* **maxSize**?: maximun size in megabytes per file.
 
 ## License
 

@@ -1,6 +1,13 @@
 import React from "react";
-export interface Styles {
+export interface TextStyles {
+    fontFamily?: string;
     color?: string;
+    fontSize?: string | number;
+}
+export interface Styles {
+    themeColor?: string;
+    mainTextStyle?: TextStyles;
+    bottonTextStyle?: TextStyles;
     backgroundImage?: string;
 }
 export interface Limits {
@@ -23,4 +30,15 @@ export interface ButtonProps {
 export interface ResultFileValidation {
     file: File;
     errors: Array<string>;
+}
+export interface Labels {
+    mainLabel: string;
+    mainLabel_or: string;
+    bottonLabel: string;
+    buttonLabel: string;
+}
+export interface ErrorsValidation {
+    mime: string;
+    ext: string;
+    size: string;
 }

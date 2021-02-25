@@ -105,8 +105,8 @@ var buttonStyles = function (style) {
         "cursor": "pointer",
         fontWeight: 500,
         backgroundColor: "rgba(255, 255, 255, 0.8)",
-        color: (style === null || style === void 0 ? void 0 : style.color) || "#ff6c37",
-        border: "1.5px solid " + ((style === null || style === void 0 ? void 0 : style.color) || "#ff6c37"),
+        color: (style === null || style === void 0 ? void 0 : style.themeColor) || "#ff6c37",
+        border: "1.5px solid " + ((style === null || style === void 0 ? void 0 : style.themeColor) || "#ff6c37"),
         textTransform: "uppercase",
     };
 };
@@ -119,23 +119,73 @@ var JButton = function (props) {
     return (React__default['default'].createElement("button", { className: "Jbutton-outlined", style: buttonStyles(style), onClick: handleClick }, children));
 };
 
-___$insertStyle(".dz-container {\n  background-color: white;\n  padding: 1.5%;\n  margin: 0;\n  border-radius: 6px;\n}\n\n/*\r\n.dz {\r\n  border: 2px dashed #ff6c37;\r\n  border-radius: 2%;\r\n  background-image: linear-gradient(\r\n      to top,\r\n      rgba(255, 255, 255, 0.6),\r\n      rgba(255, 255, 255, 0.6)\r\n    ),\r\n    url(\"https://www.postman.com/assets/use-cases-by-role.svg\");\r\n  width: 100%;\r\n  padding: 1%;\r\n\r\n  background-repeat: no-repeat;\r\n  background-position: center;\r\n  background-size: cover;\r\n  background-size: inherit;\r\n}*/\n.dz-content {\n  color: black;\n  font-size: calc(0.3rem + 0.5vmin);\n  font-weight: normal;\n  display: flex;\n  flex-wrap: wrap;\n  min-height: 20vh;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n}\n\n.dz-content h2 {\n  font-size: calc(0.5rem + 0.8vmin);\n  font-weight: lighter;\n}");
+___$insertStyle(".dz-container {\n  background-color: white;\n  padding: 1.5%;\n  margin: 0;\n  border-radius: 6px;\n}\n\n.dz {\n  border: 2px dashed #ff6c37;\n  border-radius: 2%;\n  background-image: linear-gradient(to top, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url(\"https://www.postman.com/assets/use-cases-by-role.svg\");\n  width: 100%;\n  padding: 1%;\n  background-repeat: no-repeat;\n  background-position: center;\n  background-size: cover;\n  background-size: inherit;\n}\n\n.dz-content {\n  color: black;\n  font-size: calc(0.3rem + 0.5vmin);\n  font-weight: normal;\n  display: flex;\n  flex-wrap: wrap;\n  min-height: 20vh;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n}\n\n.dz-content h2 {\n  font-size: calc(0.5rem + 0.8vmin);\n  font-weight: lighter;\n}");
 
-var dropZoneStyles = function (style) {
+var makeLabels = function (localization) {
+    switch (localization) {
+        case "es-ES":
+            return {
+                mainLabel: "Suelta tus archivos aqui",
+                mainLabel_or: "o",
+                bottonLabel: "Extensiones permitidas:",
+                buttonLabel: "Busca tus archivos...",
+            };
+        case "en-EN":
+            return {
+                mainLabel: "Drop your file here",
+                mainLabel_or: "or",
+                bottonLabel: "Extensions allowed:",
+                buttonLabel: "Select your files...",
+            };
+        default:
+            //  "en-EN"
+            return {
+                mainLabel: "Drop your file here",
+                mainLabel_or: "or",
+                bottonLabel: "Extensions allowed:",
+                buttonLabel: "Select your files...",
+            };
+    }
+};
+var makeErrors = function (localization) {
+    switch (localization) {
+        case "es-ES":
+            return {
+                mime: "Tipo de archivo no permitido",
+                ext: "Extensión de archivo no permitida",
+                size: "Tamaño maximo exedido",
+            };
+        default:
+            //  "en-EN"
+            return {
+                mime: "Mime type not allowed",
+                ext: "File extension not allowed",
+                size: "Max file size exceeded",
+            };
+    }
+};
+var makeDropZoneStyles = function (style) {
     return {
-        border: "2px dashed " + ((style === null || style === void 0 ? void 0 : style.color) || "#ff6c37"),
+        border: "2px dashed " + ((style === null || style === void 0 ? void 0 : style.themeColor) || "#ff6c37"),
         borderRadius: "2%",
         backgroundImage: "linear-gradient(\n      to top,\n      rgba(255, 255, 255, 0.6),\n      rgba(255, 255, 255, 0.6)\n    ),\n    url(" + ((style === null || style === void 0 ? void 0 : style.backgroundImage) ||
             "https://www.postman.com/assets/use-cases-by-role.svg") + ")",
         width: "100%",
         padding: "1%",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-        backgroundSize: "inherit",
+    };
+};
+var makeTextStyles = function (style) {
+    if (!style) {
+        return undefined;
+    }
+    return {
+        fontFamily: style.fontFamily,
+        color: style.color,
+        fontSize: style.fontSize,
     };
 };
 var DropZone = function (props) {
-    var style = props.style, limits = props.limits, amountOfFiles = props.amountOfFiles;
+    var style = props.style, limits = props.limits, amountOfFiles = props.amountOfFiles, localization = props.localization;
     var input_ref = React.useRef(null);
     var dz_ref = React.useRef(null);
     var handleDragOver = function (evt) {
@@ -148,6 +198,7 @@ var DropZone = function (props) {
         return re.exec(fileName)[1];
     };
     var resultOfValidation = function (fileList) {
+        var errorsEncountered = makeErrors(localization);
         //console.log("limits", limits);
         var result = [];
         fileList.forEach(function (f) {
@@ -160,23 +211,22 @@ var DropZone = function (props) {
                 if (limits.mimeType) {
                     if (!limits.mimeType.includes(file.type)) {
                         // console.log("No esta incluido: " + file.type + " en "+limits.mimeType + " salio: "+ );
-                        res.errors = __spreadArrays(res.errors, ["Mime type not allowed"]);
+                        res.errors = __spreadArrays(res.errors, [errorsEncountered.mime]);
                     }
                 }
                 var ext = getExt(file.name) || "";
                 if (limits.extensions) {
                     if (!limits.extensions.includes(ext)) {
-                        res.errors = __spreadArrays(res.errors, ["File extension not allowed"]);
+                        res.errors = __spreadArrays(res.errors, [errorsEncountered.ext]);
                     }
                 }
                 if (limits.maxSize) {
                     if (limits.maxSize > file.size * 1024 * 1024) {
-                        res.errors = __spreadArrays(res.errors, ["Max file size exceeded "]);
+                        res.errors = __spreadArrays(res.errors, [errorsEncountered.size]);
                     }
                 }
             });
         }
-        //console.log("->", result);
         return result;
     };
     var handleFileSelect = function (evt) { return __awaiter(void 0, void 0, void 0, function () {
@@ -250,18 +300,18 @@ var DropZone = function (props) {
         }
     };
     var listOfExtensionsShow = renderListOfExtensions(limits.extensions);
+    var _labels = localization ? makeLabels(localization) : makeLabels("en-EN");
     React.useEffect(function () {
         init();
     });
     return (React__default['default'].createElement("div", null,
         React__default['default'].createElement("div", { className: "dz-container" },
-            React__default['default'].createElement("div", { className: "dz", ref: dz_ref, style: dropZoneStyles(style) },
+            React__default['default'].createElement("div", { className: "dz", ref: dz_ref, style: makeDropZoneStyles(style) },
                 React__default['default'].createElement("div", { className: "dz-content" },
-                    React__default['default'].createElement("h1", null, " Drop your file here"),
-                    React__default['default'].createElement("h1", null, " or"),
-                    React__default['default'].createElement(JButton, { style: style || undefined, onClick: dz_handleClick }, "Select your file..."),
-                    listOfExtensionsShow && listOfExtensionsShow.length > 0 ? (React__default['default'].createElement("h2", null,
-                        "Extensions allowed: ",
+                    React__default['default'].createElement("h1", { style: makeTextStyles(style === null || style === void 0 ? void 0 : style.mainTextStyle) }, "" + _labels.mainLabel),
+                    React__default['default'].createElement("h1", { style: makeTextStyles(style === null || style === void 0 ? void 0 : style.mainTextStyle) }, "" + _labels.mainLabel_or),
+                    React__default['default'].createElement(JButton, { style: style || undefined, onClick: dz_handleClick }, "" + _labels.buttonLabel),
+                    listOfExtensionsShow && listOfExtensionsShow.length > 0 ? (React__default['default'].createElement("h2", { style: makeTextStyles(style === null || style === void 0 ? void 0 : style.bottonTextStyle) }, "" + _labels.bottonLabel,
                         React__default['default'].createElement("strong", null, " " + listOfExtensionsShow))) : (React__default['default'].createElement(React__default['default'].Fragment, null))))),
         React__default['default'].createElement("input", { ref: input_ref, type: "file", id: "inputSSJ", style: { display: "none" }, onChange: handleFileSelect, multiple: true })));
 };
