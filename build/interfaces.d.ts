@@ -9,6 +9,7 @@ export interface Styles {
     mainTextStyle?: TextStyles;
     bottonTextStyle?: TextStyles;
     backgroundImage?: string;
+    backgroundColor?: string;
 }
 export interface Limits {
     extensions?: Array<string>;

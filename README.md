@@ -1,10 +1,11 @@
 <p align="center">
- <img width="150" src="https://pbs.twimg.com/media/EVf6Z8rWoAQdMvG.jpg" alt="JinSS3 logo"></a></p>
+ <img align="center" width="175" src="https://user-images.githubusercontent.com/43678736/110726474-6fea8100-81e7-11eb-925e-e40750809989.png" alt="Unlimited React components logologo"></p>
 </p>
 
-<h1 align="center">React Drop Zone Responsive</h1>
+<h1 align="center">Unlimited React Components</h1>
+<h2 align="center">React Drop Zone</h2>
 
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mui-org/material-ui/blob/master/LICENSE)[![npm latest package](https://img.shields.io/badge/npm%40latest-2.8.x-orange)](https://www.npmjs.com/package/react-drop-zone-responsive)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/JinSSJ3/react-drop-zone-responsive/blob/HEAD/LICENSE)[![npm latest package](https://img.shields.io/badge/npm%40latest-1.2.8-red)](https://www.npmjs.com/package/react-drop-zone-responsive)
 
 This is my very first npm package, so if you have any issue or suggestion let me know it on the github section: "[issues](https://github.com/JinSSJ3/react-drop-zone-responsive/issues)".
 
@@ -19,23 +20,23 @@ Amazing [React](https://reactjs.org/) drop zone component for loading and valida
  <img width="100%" src="https://user-images.githubusercontent.com/43678736/109116010-de224480-770d-11eb-9bb6-52f78bd7c0bf.png" alt="demo-drop-zone"></a></p>
 </p>
 
+## Installation
+
+React-drop-zone is available as an [npm package](https://www.npmjs.com/package/react-drop-zone-responsive).
+
+```sh
+// with npm
+npm i @unlimited-react-components/react-drop-zone-responsive
+```
+
 ## Main Features:
 
-- Basic input button is included.
+- Input File Button included.
 - Free handling: You are free to handle the loaded files because this component returns an array of files each of them has 2 properties (the own file and an array of errors according to the limits you set).
 - Usable: It will fit the parent container. So make sure you git it an appropiate container.
 - Customizable: you can change the theme color to combine correctly with the rest of the page.
 - Localization: English and Spanish versions.
 - ***File reading**: `(csv, txt, json, xlsx)`: *soon**in future releases*
-
-## Installation
-
-React-drop-zone-responsive is available as an [npm package](https://www.npmjs.com/package/react-drop-zone-responsive).
-
-```sh
-// with npm
-npm i react-drop-zone-responsive
-```
 
 ## Usage (example)
 
@@ -56,6 +57,8 @@ You can style the component giving the color theme and a nice background image g
 - backgroundImage: `"https://miro.medium.com/max/670/1*wPqqYFfNreXF4INrNhYkeQ.jpeg"`
 
 You can also style the text ( in this example I am using fonts from [Google fonts](https://fonts.google.com/)). It is necessary to add the corresponding link tag on the `index.html` file.
+
+[![Edit Button](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/dropzone-test-wztkb?file=/src/App.js)
 
 ````html
 <!DOCTYPE html>
@@ -83,8 +86,9 @@ You can also style the text ( in this example I am using fonts from [Google font
 ````jsx
 // App.jsx
 import "./styles.css";
-import DropZone from "react-drop-zone-responsive";
+import { DropZone } from "react-drop-zone-responsive";
 import { useState } from "react";
+
 const useLimits = {
   extensions: ["json", "pdf", "png"], //admited extensions
   mimeType: ["application/json", "application/pdf", "image/png"], //admited mymetypes
@@ -93,23 +97,24 @@ const useLimits = {
 //font family got from google fonts:
 //https://fonts.google.com/specimen/Indie+Flower?preview.text_type=custom&sidebar.open=true&selection.family=Indie+Flower
 const useDropZoneStyles = {
-  themeColor: "teal",
+  //themeColor: "teal",
+  //theme color: could also be "rgb: rgb(255,254,45)", "hex: #0000ff"
+  // themeColor: "#0000ff",
+  themeColor: "RgB(200,45,28)",
+  backgroundImage:
+    "https://miro.medium.com/max/670/1*wPqqYFfNreXF4INrNhYkeQ.jpeg",
+  //"https://programacion.net/files/article/20170331010346_json.png",
   mainTextStyle: {
-    fontFamily: "Indie Flower, cursive",
+    fontFamily: "",
     color: "",
-    fontSize: 16
+    fontSize: ""
   },
   bottonTextStyle: {
-    fontFamily: "Long Cang, cursive",
+    fontFamily: "",
     color: "",
-    fontSize: 4
-  },
-
-  //theme color: could also be "rgb: rgb(255,254,45)", "hex: #0000ff"
-  // color: "#0000ff",
-  // color: "rgb(255,254,45)",
-  backgroundImage:
-    "https://miro.medium.com/max/670/1*wPqqYFfNreXF4INrNhYkeQ.jpeg"
+    fontSize: ""
+  }
+  //backgroundColor: "#013e62"
 };
 
 const numberOfFiles = 4;
@@ -124,7 +129,7 @@ const App = (props) => {
       if (f.errors.length > 0) {
         filesError.push(f.file);
         f.errors.forEach((element, index) => {
-          console.log(`Error ${index}: ${element}`);
+          console.log(`${f.file.name}: Error ${index}: ${element}`);
         });
       } else {
         filesCheck.push(f.file);
@@ -140,22 +145,25 @@ const App = (props) => {
       </h1>
       <h2>Start editing to see some magic happen!</h2>
       <p>Component in construction BTW</p>
+
       <DropZone
         style={useDropZoneStyles}
         amountOfFiles={numberOfFiles}
         limits={useLimits}
         handleFileSelect={handleFileSelect}
+        //localization={"es-ES"}
       />
+
       <h3>{`List of files without errors (${fileListCheck.length})`}</h3>
       <li>
         {fileListCheck.map((f, index) => (
-          <ul>{f.name}</ul>
+          <ul key={index}>{f.name}</ul>
         ))}
       </li>
       <h3>{`List of files with errors (${fileListError.length})`}</h3>
       <li>
         {fileListError.map((f, index) => (
-          <ul>{f.name}</ul>
+          <ul key={index}>{f.name}</ul>
         ))}
       </li>
       <h2>Also check the console to see the errors, if any</h2>
@@ -163,6 +171,7 @@ const App = (props) => {
   );
 };
 export default App;
+
 ````
 
 Yes, it's really all you need to get started as you can see in this live and interactive demo:
@@ -188,6 +197,7 @@ Yes, it's really all you need to get started as you can see in this live and int
   - color?: string;
   - fontSize?: string | number;
 - **backgroundImage**?: An url to an image on internet to fit the background of the drop zone.
+- **backgroundColor**?: The background color, by default is white.
 
 ### Props.limits
 

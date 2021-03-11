@@ -1,7 +1,7 @@
 {
-  "name": "react-drop-zone-responsive",
-  "version": "2.8.7",
-  "description": "Amazing react drop zone for loading files. Also basic input throw button is available.",
+  "name": "@unlimited-react-components/react-drop-zone",
+  "version": "1.2.8",
+  "description": "Amazing react drop zone for loading files that is simple to use.",
   "main": "./build/index.js",
   "module": "./build/index.es.js",
   "types": "./build/index.d.ts",
@@ -22,7 +22,12 @@
     "customizable",
     "responsive",
     "spanish",
-    "upload"
+    "upload",
+    "dragndrop",
+    "drag and drop",
+    "customizable",
+    "localization",
+    "validation"
   ],
   "author": "JinSSJ3",
   "license": "MIT",
@@ -70,6 +75,7 @@
     "typescript": "^4.0.3"
   },
   "scripts": {
+    "publish": "npm publish --access public",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "build": "rollup -c",

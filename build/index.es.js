@@ -77,9 +77,55 @@ function __spreadArrays() {
     return r;
 }
 
+var hexArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
+var decArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+var hexTodec = function (letter) {
+    return decArray[hexArray.indexOf(letter)];
+};
+var hexColorToRGB = function (colorInput, perc) {
+    if (colorInput.includes("rgba")) {
+        return colorInput;
+    }
+    if (colorInput.includes("rgb")) {
+        return colorInput.replace(')', ", " + perc + ")");
+    }
+    var resultDefault = "rgba(255, 255, 255, 0.6)";
+    if (!colorInput) {
+        return resultDefault;
+    }
+    var color = colorInput.toUpperCase();
+    var resultOk = "";
+    var component1 = 0;
+    var component2 = 0;
+    var component3 = 0;
+    // if first element is no '#' return default background color
+    if (color.charAt(0) !== '#') {
+        return resultDefault;
+    }
+    // if color lenght is not exactly 7 return default
+    if (color.length !== 7) {
+        return resultDefault;
+    }
+    // if one of the letters is not included in hex array return  default
+    for (var i = 1; i < color.length; i++) {
+        if (!hexArray.includes(color.charAt(i))) {
+            return resultDefault;
+        }
+    }
+    component1 = hexTodec(color.charAt(1)) * 16 + hexTodec(color.charAt(2));
+    component2 = hexTodec(color.charAt(3)) * 16 + hexTodec(color.charAt(4));
+    component3 = hexTodec(color.charAt(5)) * 16 + hexTodec(color.charAt(6));
+    resultOk = "rgba(" + component1 + ", " + component2 + "," + component3 + " , " + perc + ")";
+    return resultOk;
+};
+
 ___$insertStyle(".Jbutton-outlined:hover {\n  background-color: #ffe1d6;\n}");
 
 var buttonStyles = function (style) {
+    var bg_color = undefined;
+    if (style === null || style === void 0 ? void 0 : style.backgroundColor) {
+        bg_color = style.backgroundColor;
+    }
     return {
         minWidth: "64px",
         padding: "6px 16px",
@@ -94,9 +140,10 @@ var buttonStyles = function (style) {
         margin: "1%",
         transition: "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,\n    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,\n    border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
         //transition-duration: 0.4s;
-        "cursor": "pointer",
+        cursor: "pointer",
         fontWeight: 500,
-        backgroundColor: "rgba(255, 255, 255, 0.8)",
+        backgroundColor: "" + ((style === null || style === void 0 ? void 0 : style.backgroundColor) ? hexColorToRGB(style.backgroundColor, 0.8)
+            : "rgba(255, 255, 255, 0.8)"),
         color: (style === null || style === void 0 ? void 0 : style.themeColor) || "#ff6c37",
         border: "1.5px solid " + ((style === null || style === void 0 ? void 0 : style.themeColor) || "#ff6c37"),
         textTransform: "uppercase",
@@ -111,13 +158,13 @@ var JButton = function (props) {
     return (React.createElement("button", { className: "Jbutton-outlined", style: buttonStyles(style), onClick: handleClick }, children));
 };
 
-___$insertStyle(".dz-container {\n  background-color: white;\n  padding: 1.5%;\n  margin: 0;\n  border-radius: 6px;\n}\n\n.dz {\n  border: 2px dashed #ff6c37;\n  border-radius: 2%;\n  background-image: linear-gradient(to top, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url(\"https://www.postman.com/assets/use-cases-by-role.svg\");\n  width: 100%;\n  padding: 1%;\n  background-repeat: no-repeat;\n  background-position: center;\n  background-size: cover;\n  background-size: inherit;\n}\n\n.dz-content {\n  color: black;\n  font-size: calc(0.3rem + 0.5vmin);\n  font-weight: normal;\n  display: flex;\n  flex-wrap: wrap;\n  min-height: 20vh;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n}\n\n.dz-content h2 {\n  font-size: calc(0.5rem + 0.8vmin);\n  font-weight: lighter;\n}");
+___$insertStyle(".dz-container {\n  background-color: white;\n  padding: 1.5%;\n  margin: 0;\n  border-radius: 6px;\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: center;\n}\n\n.dz {\n  border: 2px dashed #ff6c37;\n  border-radius: 2%;\n  background-image: linear-gradient(to top, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url(\"https://www.postman.com/assets/use-cases-by-role.svg\");\n  width: 100%;\n  padding: 1%;\n  background-repeat: no-repeat;\n  background-position: center;\n  background-size: cover;\n  background-size: inherit;\n}\n\n.dz-content {\n  color: black;\n  font-size: calc(0.3rem + 0.5vmin);\n  font-weight: normal;\n  display: flex;\n  flex-wrap: wrap;\n  min-height: 20vh;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n}\n\n.dz-content h2 {\n  font-size: calc(0.5rem + 0.8vmin);\n  font-weight: lighter;\n}");
 
 var makeLabels = function (localization) {
     switch (localization) {
         case "es-ES":
             return {
-                mainLabel: "Suelta tus archivos aqui",
+                mainLabel: "Suelta tus archivos aquí",
                 mainLabel_or: "o",
                 bottonLabel: "Extensiones permitidas:",
                 buttonLabel: "Busca tus archivos...",
@@ -160,7 +207,7 @@ var makeDropZoneStyles = function (style) {
     return {
         border: "2px dashed " + ((style === null || style === void 0 ? void 0 : style.themeColor) || "#ff6c37"),
         borderRadius: "2%",
-        backgroundImage: "linear-gradient(\n      to top,\n      rgba(255, 255, 255, 0.6),\n      rgba(255, 255, 255, 0.6)\n    ),\n    url(" + ((style === null || style === void 0 ? void 0 : style.backgroundImage) ||
+        backgroundImage: "linear-gradient(\n      to top,\n      " + ((style === null || style === void 0 ? void 0 : style.backgroundColor) ? hexColorToRGB(style.backgroundColor, 0.6) : "rgba(255, 255, 255, 0.6)") + ",\n      " + ((style === null || style === void 0 ? void 0 : style.backgroundColor) ? hexColorToRGB(style.backgroundColor, 0.6) : "rgba(255, 255, 255, 0.6)") + "\n    ),\n    url(" + ((style === null || style === void 0 ? void 0 : style.backgroundImage) ||
             "https://www.postman.com/assets/use-cases-by-role.svg") + ")",
         width: "100%",
         padding: "1%",
@@ -191,7 +238,6 @@ var DropZone = function (props) {
     };
     var resultOfValidation = function (fileList) {
         var errorsEncountered = makeErrors(localization);
-        //console.log("limits", limits);
         var result = [];
         fileList.forEach(function (f) {
             result.push({ file: f, errors: [] });
@@ -202,7 +248,6 @@ var DropZone = function (props) {
                 //console.log("type: ", file.type);
                 if (limits.mimeType) {
                     if (!limits.mimeType.includes(file.type)) {
-                        // console.log("No esta incluido: " + file.type + " en "+limits.mimeType + " salio: "+ );
                         res.errors = __spreadArrays(res.errors, [errorsEncountered.mime]);
                     }
                 }
@@ -272,7 +317,6 @@ var DropZone = function (props) {
         });
     }); };
     var renderListOfExtensions = function (listExt) {
-        //onst listExt: Array<string> | undefined=limits.extensions;
         if (!listExt) {
             return "";
         }
@@ -291,13 +335,13 @@ var DropZone = function (props) {
             }
         }
     };
-    var listOfExtensionsShow = renderListOfExtensions(limits.extensions);
+    var listOfExtensionsShow = renderListOfExtensions(limits === null || limits === void 0 ? void 0 : limits.extensions);
     var _labels = localization ? makeLabels(localization) : makeLabels("en-EN");
     useEffect(function () {
         init();
     });
     return (React.createElement("div", null,
-        React.createElement("div", { className: "dz-container" },
+        React.createElement("div", { className: "dz-container", style: { backgroundColor: ((style === null || style === void 0 ? void 0 : style.backgroundColor) ? style.backgroundColor : "white") } },
             React.createElement("div", { className: "dz", ref: dz_ref, style: makeDropZoneStyles(style) },
                 React.createElement("div", { className: "dz-content" },
                     React.createElement("h1", { style: makeTextStyles(style === null || style === void 0 ? void 0 : style.mainTextStyle) }, "" + _labels.mainLabel),
@@ -308,5 +352,5 @@ var DropZone = function (props) {
         React.createElement("input", { ref: input_ref, type: "file", id: "inputSSJ", style: { display: "none" }, onChange: handleFileSelect, multiple: true })));
 };
 
-export default DropZone;
+export { DropZone };
 //# sourceMappingURL=index.es.js.map
